@@ -56,17 +56,17 @@ function ensureWebSocket(config) {
 
     }
 
-    if (settings.server_port !== config.obs.port) {
+    if (settings.server_port !== config.port) {
 
-        settings.server_port = config.obs.port;
+        settings.server_port = config.port;
 
         changed = true;
 
     }
 
-    if (settings.server_password !== config.obs.password) {
+    if (settings.server_password !== config.password) {
 
-        settings.server_password = config.obs.password;
+        settings.server_password = config.password;
 
         changed = true;
 
@@ -87,6 +87,7 @@ function ensureWebSocket(config) {
     return changed;
 
 }
+
 
 module.exports = {
 

@@ -1,0 +1,34 @@
+[
+    {
+        "name": "tnebooks",
+
+        "sources": [
+            {
+                "type": "window_capture",
+                "name": "TNE Books"
+            }
+        ]
+    },
+
+    {
+        "name": "web paint",
+
+        "sources": [
+            {
+                "type": "window_capture",
+                "name": "Web Paint"
+            }
+        ]
+    },
+{
+    "name": "phone cam",
+
+    "sources": [
+        {
+            "type": "window_capture",
+            "name": "Phone Camera"
+        }
+    ]
+}
+
+]

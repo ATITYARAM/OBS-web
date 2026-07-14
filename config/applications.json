@@ -1,0 +1,50 @@
+[
+    {
+        "id": "tnebooks",
+
+        "scene": "tnebooks",
+
+        "source": "TNE Books",
+
+        "command": [
+            "firefox",
+            "--new-window",
+            "https://tnebooks.github.io"
+        ],
+
+        "windowSearch": "Tamil Nadu Textbooks"
+    },
+
+    {
+        "id": "webpaint",
+
+        "scene": "web paint",
+
+        "source": "Web Paint",
+
+        "command": [
+            "firefox",
+            "--new-window",
+            "https://webwhiteboard.com/"
+        ],
+
+        "windowSearch": "Whiteboard"
+    },
+
+	{
+	    "id": "phonecam",
+
+	    "scene": "phone cam",
+
+	    "source": "Phone Camera",
+
+	    "command": [
+	        "firefox",
+	        "--new-window",
+	        "http://192.168.0.38:4747/"
+	    ],
+
+	    "windowSearch": "DroidCam"
+	}
+
+]

@@ -1,8 +1,7 @@
-const fs = require("fs");
+const { obs: config } = require("../config");
 
-const config = JSON.parse( fs.readFileSync("./config/config.json", "utf8"));
+
 const { configureWebSocket } = require("./websocketManager");
-const { ensureWebSocket } = require("../configurator/websocketConfigurator");
 const { execSync, spawn } = require("child_process");
 const { connectOBS } = require("../obs");
 
@@ -211,18 +210,6 @@ async function ensureOBS() {
 
     console.log(`✓ OBS Found (${obs.type})`);
 
-const changed = ensureWebSocket(config);
-
-if (changed) {
-
-    console.log("✓ OBS WebSocket configured");
-
-} else {
-
-    console.log("✓ OBS WebSocket already configured");
-
-}
-
 try {
 
     await connectOBS();
@@ -237,8 +224,8 @@ catch {
     console.log("Launching OBS...");
 
 configureWebSocket(
-    4999,
-    "classroom123"
+    config.port,
+    config.password
 );
 
     launchOBS(obs.type);

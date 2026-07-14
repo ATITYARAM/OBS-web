@@ -1,7 +1,7 @@
-const fs = require("fs");
+const config =
+require("./config");
 
 const { ensureOBSWorkspace } = require("./setup/profileManager");
-const config = JSON.parse( fs.readFileSync("./config/config.json", "utf8"));
 const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
 const { ensureScenes } = require("./managers/sceneManager");
