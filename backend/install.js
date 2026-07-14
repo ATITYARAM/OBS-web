@@ -1,5 +1,3 @@
-const log = require("./utils/logger");
-
 const {
     ensureFlatpak
 } = require("./installer/flatpakInstaller");
@@ -8,19 +6,25 @@ const {
     ensureOBS
 } = require("./installer/obsInstaller");
 
-log.title("Classroom Installer");
+const {
+    ensureWMCTRL
+} = require("./installer/wmctrlInstaller");
 
-if (!ensureFlatpak()) {
+function main() {
 
-    process.exit(1);
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log(" Classroom Installer");
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+    ensureFlatpak();
+
+    ensureOBS();
+
+    ensureWMCTRL();
+
+    console.log("");
+    console.log("✓ Installation Check Complete");
 
 }
 
-if (!ensureOBS()) {
-
-    process.exit(1);
-
-}
-
-console.log("");
-log.success("Installation Check Complete");
+main();

@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "install-check": "node backend/install.js",
+    "doctor": "node backend/doctor.js",
+    "launch": "node backend/launcher.js",
+    "server": "node backend/server.js",
+    "save-template": "node backend/saveTemplate.js"
+  },
   "name": "classroom-controller",
   "version": "1.0.0",
   "description": "",
