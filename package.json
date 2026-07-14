@@ -11,7 +11,7 @@
     "launch": "node backend/launcher.js",
     "server": "node backend/server.js",
     "save-template": "node backend/saveTemplate.js",
-    "reset-obs": "node backend/resetOBS.js"
+    "reset-obs": "node backend/resetOBS.js",
     "test": "echo \"No tests yet\""
   },
 
