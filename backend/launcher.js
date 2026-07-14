@@ -1,6 +1,6 @@
 const config =
 require("./config");
-
+const { obsInitialized } = require("./setup/workspaceManager");
 const { ensureOBSWorkspace } = require("./setup/workspaceManager");
 const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
@@ -17,6 +17,17 @@ async function main() {
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         console.log(" Classroom Controller");
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+	if (!obsInitialized()) {
+
+	console.log("");
+	console.log("First OBS startup detected.");
+	console.log("Initializing OBS...");
+	console.log("");
+
+	await ensureOBS();
+
+	}
 
 	await ensureOBSWorkspace();
 

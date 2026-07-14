@@ -2,6 +2,19 @@ const fs = require("fs");
 const path = require("path");
 const ini = require("ini");
 
+function obsInitialized() {
+
+    return fs.existsSync(
+
+        path.join(
+            ROOT,
+            "user.ini"
+        )
+
+    );
+
+}
+
 const ROOT =
     process.env.HOME +
     "/.var/app/com.obsproject.Studio/config/obs-studio";
@@ -144,6 +157,8 @@ async function ensureOBSWorkspace() {
 
 module.exports = {
 
-    ensureOBSWorkspace
+    ensureOBSWorkspace,
+
+    obsInitialized
 
 };
