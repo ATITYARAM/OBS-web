@@ -1,5 +1,6 @@
 const fs = require("fs");
 
+const { ensureOBSWorkspace } = require("./setup/profileManager");
 const config = JSON.parse( fs.readFileSync("./config/config.json", "utf8"));
 const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
@@ -16,6 +17,8 @@ async function main() {
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         console.log(" Classroom Controller");
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+	await ensureOBSWorkspace();
 
 	await ensureOBS();
 

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "ini": "^7.0.0",
     "obs-websocket-js": "^5.0.8",
     "ps-list": "^9.0.0"
   }
