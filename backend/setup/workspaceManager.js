@@ -3,6 +3,39 @@ const path = require("path");
 const ini = require("ini");
 const { execSync } = require("child_process");
 
+const { workspace } = require("../config");
+
+const ROOT =
+    process.env.HOME +
+    "/.var/app/com.obsproject.Studio/config/obs-studio";
+
+const PROFILE_NAME = workspace.profile;
+const SCENE_NAME = workspace.sceneCollection;
+
+const TEMPLATE_PROFILE =
+    path.join(
+        process.cwd(),
+        "templates",
+        "profile",
+        PROFILE_NAME
+    );
+
+const TEMPLATE_SCENE =
+    path.join(
+        process.cwd(),
+        "templates",
+        "scenes",
+        `${SCENE_NAME}.json`
+    );
+
+const TEMPLATE_WS =
+    path.join(
+        process.cwd(),
+        "templates",
+        "websocket",
+        "config.json"
+    );
+
 function obsInitialized() {
 
     return fs.existsSync(
@@ -15,28 +48,6 @@ function obsInitialized() {
     );
 
 }
-
-const ROOT =
-    process.env.HOME +
-    "/.var/app/com.obsproject.Studio/config/obs-studio";
-
-const PROFILE_NAME = "J";
-const SCENE_NAME = "J Classroom";
-
-const TEMPLATE_PROFILE =
-    path.join(process.cwd(), "templates/profile/J");
-
-const TEMPLATE_SCENE =
-    path.join(
-        process.cwd(),
-        "templates/scenes/J Classroom.json"
-    );
-
-const TEMPLATE_WS =
-    path.join(
-        process.cwd(),
-        "templates/websocket/config.json"
-    );
 
 function wait(ms) {
 
@@ -54,11 +65,30 @@ async function waitForInitialization() {
 
         !fs.existsSync(path.join(ROOT, "user.ini")) ||
 
-        !fs.existsSync(path.join(ROOT, "plugin_config", "obs-websocket", "config.json")) ||
+        !fs.existsSync(
+            path.join(
+                ROOT,
+                "plugin_config",
+                "obs-websocket",
+                "config.json"
+            )
+        ) ||
 
-        !fs.existsSync(path.join(ROOT, "basic", "profiles")) ||
+        !fs.existsSync(
+            path.join(
+                ROOT,
+                "basic",
+                "profiles"
+            )
+        ) ||
 
-        !fs.existsSync(path.join(ROOT, "basic", "scenes"))
+        !fs.existsSync(
+            path.join(
+                ROOT,
+                "basic",
+                "scenes"
+            )
+        )
 
     ) {
 
@@ -89,85 +119,172 @@ async function closeOBS() {
 function copyRecursive(src, dst) {
 
     fs.cpSync(src, dst, {
+
         recursive: true
+
     });
 
 }
 
-function ensureProfileFolder() {
+function installProfile() {
 
     const dst =
-        `${ROOT}/basic/profiles/${PROFILE_NAME}`;
+        path.join(
+            ROOT,
+            "basic",
+            "profiles",
+            PROFILE_NAME
+        );
 
-    if (!fs.existsSync(dst)) {
+    console.log("Installing Profile...");
 
-        console.log("Creating J profile...");
+    fs.rmSync(
 
-        copyRecursive(TEMPLATE_PROFILE, dst);
+        dst,
 
-    }
-    else {
+        {
 
-        console.log("✓ Profile exists");
+            recursive: true,
 
-    }
+            force: true
+
+        }
+
+    );
+
+    fs.mkdirSync(
+
+        path.dirname(dst),
+
+        {
+
+            recursive: true
+
+        }
+
+    );
+
+    copyRecursive(
+
+        TEMPLATE_PROFILE,
+
+        dst
+
+    );
 
 }
 
-function ensureSceneCollection() {
+function installSceneCollection() {
 
     const dst =
-        `${ROOT}/basic/scenes/${SCENE_NAME}.json`;
-
-    if (!fs.existsSync(dst)) {
-
-        console.log("Creating Scene Collection...");
-
-        fs.copyFileSync(
-            TEMPLATE_SCENE,
-            dst
+        path.join(
+            ROOT,
+            "basic",
+            "scenes",
+            `${SCENE_NAME}.json`
         );
 
-    }
-    else {
+    console.log("Installing Scene Collection...");
 
-        console.log("✓ Scene Collection exists");
+    fs.mkdirSync(
 
-    }
+        path.dirname(dst),
+
+        {
+
+            recursive: true
+
+        }
+
+    );
+
+    fs.rmSync(
+
+        dst,
+
+        {
+
+            force: true
+
+        }
+
+    );
+
+    fs.copyFileSync(
+
+        TEMPLATE_SCENE,
+
+        dst
+
+    );
 
 }
 
-function ensureWebSocketConfig() {
+function installWebSocketConfig() {
 
     const dst =
-        `${ROOT}/plugin_config/obs-websocket/config.json`;
-
-    if (!fs.existsSync(dst)) {
-
-        console.log("Installing WebSocket config...");
-
-        fs.copyFileSync(
-            TEMPLATE_WS,
-            dst
+        path.join(
+            ROOT,
+            "plugin_config",
+            "obs-websocket",
+            "config.json"
         );
 
-    }
-    else {
+    console.log("Installing WebSocket Config...");
 
-        console.log("✓ WebSocket config exists");
+    fs.mkdirSync(
 
-    }
+        path.dirname(dst),
+
+        {
+
+            recursive: true
+
+        }
+
+    );
+
+    fs.rmSync(
+
+        dst,
+
+        {
+
+            force: true
+
+        }
+
+    );
+
+    fs.copyFileSync(
+
+        TEMPLATE_WS,
+
+        dst
+
+    );
 
 }
 
 function selectProfile() {
 
     const file =
-        `${ROOT}/user.ini`;
+        path.join(
+            ROOT,
+            "user.ini"
+        );
 
     const cfg =
         ini.parse(
-            fs.readFileSync(file, "utf8")
+
+            fs.readFileSync(
+
+                file,
+
+                "utf8"
+
+            )
+
         );
 
     cfg.Basic.Profile = PROFILE_NAME;
@@ -178,11 +295,14 @@ function selectProfile() {
         `${SCENE_NAME}.json`;
 
     fs.writeFileSync(
+
         file,
+
         ini.stringify(cfg)
+
     );
 
-    console.log("✓ Selected J profile");
+    console.log("✓ Selected Profile");
 
 }
 
@@ -192,11 +312,11 @@ async function ensureOBSWorkspace() {
     console.log("Preparing OBS Workspace...");
     console.log("");
 
-    ensureProfileFolder();
+    installProfile();
 
-    ensureSceneCollection();
+    installSceneCollection();
 
-    ensureWebSocketConfig();
+    installWebSocketConfig();
 
     selectProfile();
 
