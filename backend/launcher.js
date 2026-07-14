@@ -1,7 +1,7 @@
 const config =
 require("./config");
 
-const { ensureOBSWorkspace } = require("./setup/profileManager");
+const { ensureOBSWorkspace } = require("./setup/workspaceManager");
 const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
 const { ensureScenes } = require("./managers/sceneManager");

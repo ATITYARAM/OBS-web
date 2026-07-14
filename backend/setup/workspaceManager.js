@@ -138,6 +138,8 @@ async function ensureOBSWorkspace() {
 
     selectProfile();
 
+    console.log("✓ Workspace Ready");
+
 }
 
 module.exports = {
