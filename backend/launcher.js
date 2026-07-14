@@ -1,9 +1,7 @@
 const fs = require("fs");
 
-const config = JSON.parse(
-    fs.readFileSync("./config/config.json", "utf8")
-);
-
+const config = JSON.parse( fs.readFileSync("./config/config.json", "utf8"));
+const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
 const { ensureScenes } = require("./managers/sceneManager");
 const { ensureSources } = require("./managers/sourceManager");
@@ -19,7 +17,7 @@ async function main() {
         console.log(" Classroom Controller");
         console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
-        await connectOBS();
+	await ensureOBS();
 
         console.log("");
 
