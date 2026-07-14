@@ -1,6 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
+const { getOBSConfig } =
+    require("./utils/obsConfig");
+
+const obs = getOBSConfig();
+
 const ROOT =
     process.env.HOME +
     "/.var/app/com.obsproject.Studio/config/obs-studio";
@@ -8,12 +13,16 @@ const ROOT =
 function copy(src, dst) {
 
     fs.rmSync(dst, {
+
         recursive: true,
         force: true
+
     });
 
     fs.cpSync(src, dst, {
+
         recursive: true
+
     });
 
 }
@@ -28,17 +37,21 @@ console.log("Saving Profile...");
 copy(
 
     path.join(
+
         ROOT,
         "basic",
         "profiles",
-        "J"
+        obs.profileDir
+
     ),
 
     path.join(
+
         process.cwd(),
         "templates",
         "profile",
-        "J"
+        obs.profileDir
+
     )
 
 );
@@ -52,17 +65,21 @@ console.log("Saving Scene Collection...");
 copy(
 
     path.join(
+
         ROOT,
         "basic",
         "scenes",
-        "J Classroom.json"
+        obs.sceneCollectionFile
+
     ),
 
     path.join(
+
         process.cwd(),
         "templates",
         "scenes",
-        "J Classroom.json"
+        obs.sceneCollectionFile
+
     )
 
 );
@@ -76,17 +93,21 @@ console.log("Saving WebSocket Config...");
 copy(
 
     path.join(
+
         ROOT,
         "plugin_config",
         "obs-websocket",
         "config.json"
+
     ),
 
     path.join(
+
         process.cwd(),
         "templates",
         "websocket",
         "config.json"
+
     )
 
 );
