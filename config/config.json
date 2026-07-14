@@ -1,0 +1,53 @@
+{
+  "obs": {
+    "host": "localhost",
+    "port": 4455,
+    "password": "classroom123"
+  },
+
+  "applications": [
+    {
+      "id": "tnebooks",
+      "scene": "tnebooks",
+      "source": "TNE Books",
+      "command": [
+        "firefox",
+        "--new-window",
+        "https://tnebooks.github.io"
+      ],
+      "windowSearch": "Tamil Nadu Textbooks"
+    },
+    {
+      "id": "webpaint",
+      "scene": "web paint",
+      "source": "Web Paint",
+      "command": [
+        "firefox",
+        "--new-window",
+        "https://webwhiteboard.com/"
+      ],
+      "windowSearch": "Whiteboard"
+    }
+  ],
+
+  "scenes": [
+    {
+      "name": "tnebooks",
+      "sources": [
+        {
+          "type": "window_capture",
+          "name": "TNE Books"
+        }
+      ]
+    },
+    {
+      "name": "web paint",
+      "sources": [
+        {
+          "type": "window_capture",
+          "name": "Web Paint"
+        }
+      ]
+    }
+  ]
+}
