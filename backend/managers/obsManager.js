@@ -1,7 +1,6 @@
 const { obs: config } = require("../config");
 
 
-const { configureWebSocket } = require("./websocketManager");
 const { execSync, spawn } = require("child_process");
 const { connectOBS } = require("../obs");
 
@@ -222,11 +221,6 @@ try {
 catch {
 
     console.log("Launching OBS...");
-
-configureWebSocket(
-    config.port,
-    config.password
-);
 
     launchOBS(obs.type);
 

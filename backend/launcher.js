@@ -1,7 +1,6 @@
 const config =
 require("./config");
-const { obsInitialized } = require("./setup/workspaceManager");
-const { ensureOBSWorkspace } = require("./setup/workspaceManager");
+const { obsInitialized, waitForInitialization, closeOBS, ensureOBSWorkspace } = require("./setup/workspaceManager");
 const { ensureOBS } = require("./managers/obsManager");
 const { connectOBS } = require("./obs");
 const { ensureScenes } = require("./managers/sceneManager");
@@ -20,14 +19,24 @@ async function main() {
 
 	if (!obsInitialized()) {
 
-	console.log("");
-	console.log("First OBS startup detected.");
-	console.log("Initializing OBS...");
-	console.log("");
+    console.log("");
+    console.log("First OBS startup detected.");
+    console.log("Initializing OBS...");
+    console.log("");
 
-	await ensureOBS();
+    await ensureOBS();
 
-	}
+    console.log("Waiting for OBS to create configuration...");
+
+    await waitForInitialization();
+
+    console.log("✓ OBS initialized");
+
+    await closeOBS();
+
+    console.log("✓ OBS closed");
+
+}
 
 	await ensureOBSWorkspace();
 

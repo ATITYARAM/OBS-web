@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const ini = require("ini");
+const { execSync } = require("child_process");
 
 function obsInitialized() {
 
@@ -36,6 +37,54 @@ const TEMPLATE_WS =
         process.cwd(),
         "templates/websocket/config.json"
     );
+
+function wait(ms) {
+
+    return new Promise(resolve =>
+
+        setTimeout(resolve, ms)
+
+    );
+
+}
+
+async function waitForInitialization() {
+
+    while (
+
+        !fs.existsSync(path.join(ROOT, "user.ini")) ||
+
+        !fs.existsSync(path.join(ROOT, "plugin_config", "obs-websocket", "config.json")) ||
+
+        !fs.existsSync(path.join(ROOT, "basic", "profiles")) ||
+
+        !fs.existsSync(path.join(ROOT, "basic", "scenes"))
+
+    ) {
+
+        await wait(1000);
+
+    }
+
+}
+
+async function closeOBS() {
+
+    try {
+
+        execSync("pkill obs");
+
+    } catch {}
+
+    try {
+
+        execSync("pkill -f com.obsproject.Studio");
+
+    } catch {}
+
+    await wait(2000);
+
+}
 
 function copyRecursive(src, dst) {
 
@@ -159,6 +208,10 @@ module.exports = {
 
     ensureOBSWorkspace,
 
-    obsInitialized
+    obsInitialized,
+
+    waitForInitialization,
+
+    closeOBS
 
 };
