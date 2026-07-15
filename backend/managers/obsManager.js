@@ -161,7 +161,7 @@ async function waitForOBS() {
 
 }
 
-async function ensureOBS() {
+async function ensureOBSInstalled() {
 
     console.log("");
     console.log("Checking OBS...");
@@ -172,11 +172,20 @@ async function ensureOBS() {
     if (!obs.installed) {
 
         console.log("❌ OBS Studio not installed.");
+
         process.exit(1);
 
     }
 
     console.log(`✓ OBS Found (${obs.type})`);
+
+    return obs;
+
+}
+
+async function ensureOBS() {
+
+    const obs = await ensureOBSInstalled();
 
 try {
 

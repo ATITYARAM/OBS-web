@@ -4,53 +4,44 @@ const ini = require("ini");
 const { execSync } = require("child_process");
 
 const { workspace } = require("../config");
-const { getOBSConfig } = require("../utils/obsConfig");
 
-const ROOT =
-    process.env.HOME +
-    "/.var/app/com.obsproject.Studio/config/obs-studio";
+const ROOT = path.join(
+    process.env.HOME,
+    ".var",
+    "app",
+    "com.obsproject.Studio",
+    "config",
+    "obs-studio"
+);
 
-const TEMPLATE_SCENE =
-    path.join(
-        process.cwd(),
-        "templates",
-        "scenes",
-        getSceneFile()
-    );
 const PROFILE_NAME = workspace.profile;
 const SCENE_NAME = workspace.sceneCollection;
 
-function getSceneFile() {
+const TEMPLATE_PROFILE = path.join(
+    process.cwd(),
+    "templates",
+    "profile",
+    PROFILE_NAME
+);
 
-    try {
+const TEMPLATE_SCENE = path.join(
+    process.cwd(),
+    "templates",
+    "scenes",
+    `${SCENE_NAME}.json`
+);
 
-        return getOBSConfig().sceneCollectionFile;
+const TEMPLATE_WS = path.join(
+    process.cwd(),
+    "templates",
+    "websocket",
+    "config.json"
+);
 
-    }
-
-    catch {
-
-        return `${SCENE_NAME}.json`;
-
-    }
-
-}
-
-const TEMPLATE_PROFILE =
-    path.join(
-        process.cwd(),
-        "templates",
-        "profile",
-        PROFILE_NAME
-    );
-
-const TEMPLATE_WS =
-    path.join(
-        process.cwd(),
-        "templates",
-        "websocket",
-        "config.json"
-    );
+const TEMPLATE_ASSETS = path.join(
+    process.cwd(),
+    "assets"
+);
 
 function obsInitialized() {
 
@@ -122,13 +113,14 @@ function copyRecursive(src, dst) {
 
 function installProfile() {
 
-    const dst =
-        path.join(
-            ROOT,
-            "basic",
-            "profiles",
-            PROFILE_NAME
-        );
+    const dst = path.join(
+
+        ROOT,
+        "basic",
+        "profiles",
+        PROFILE_NAME
+
+    );
 
     console.log("Installing Profile...");
 
@@ -154,7 +146,6 @@ function installProfile() {
     copyRecursive(
 
         TEMPLATE_PROFILE,
-
         dst
 
     );
@@ -163,18 +154,20 @@ function installProfile() {
 
 function installSceneCollection() {
 
-    const scenesDir =
-        path.join(
-            ROOT,
-            "basic",
-            "scenes"
-        );
+    const scenesDir = path.join(
 
-    const dst =
-        path.join(
-            scenesDir,
-            `${SCENE_NAME}.json`
-        );
+        ROOT,
+        "basic",
+        "scenes"
+
+    );
+
+    const dst = path.join(
+
+        scenesDir,
+        `${SCENE_NAME}.json`
+
+    );
 
     console.log("Installing Scene Collection...");
 
@@ -192,7 +185,11 @@ function installSceneCollection() {
 
     for (const file of fs.readdirSync(scenesDir)) {
 
-        if (file.endsWith(".json")) {
+        if (
+
+            file.endsWith(".json")
+
+        ) {
 
             fs.rmSync(
 
@@ -210,31 +207,74 @@ function installSceneCollection() {
 
     }
 
-const src =
-    path.join(
-        process.cwd(),
-        "templates",
-        "scenes",
-        getSceneFile()
+    fs.copyFileSync(
+
+        TEMPLATE_SCENE,
+        dst
+
     );
 
-fs.copyFileSync(
-    src,
-    dst
-);
+}
 
+function installAssets() {
+
+    if (
+
+        !fs.existsSync(TEMPLATE_ASSETS)
+
+    ) {
+
+        return;
+
+    }
+
+    const dst = path.join(
+
+        ROOT,
+        "assets"
+
+    );
+
+    console.log("Installing Assets...");
+
+    fs.rmSync(dst, {
+
+        recursive: true,
+        force: true
+
+    });
+
+    fs.mkdirSync(
+
+        dst,
+
+        {
+
+            recursive: true
+
+        }
+
+    );
+
+    copyRecursive(
+
+        TEMPLATE_ASSETS,
+        dst
+
+    );
 
 }
 
 function installWebSocketConfig() {
 
-    const dst =
-        path.join(
-            ROOT,
-            "plugin_config",
-            "obs-websocket",
-            "config.json"
-        );
+    const dst = path.join(
+
+        ROOT,
+        "plugin_config",
+        "obs-websocket",
+        "config.json"
+
+    );
 
     console.log("Installing WebSocket Config...");
 
@@ -250,12 +290,15 @@ function installWebSocketConfig() {
 
     );
 
-    if (!fs.existsSync(dst)) {
+    if (
+
+        !fs.existsSync(dst)
+
+    ) {
 
         fs.copyFileSync(
 
             TEMPLATE_WS,
-
             dst
 
         );
@@ -266,31 +309,29 @@ function installWebSocketConfig() {
 
 function selectProfile() {
 
-    const file =
-        path.join(
-            ROOT,
-            "user.ini"
-        );
+    const file = path.join(
 
-    const cfg =
-        ini.parse(
+        ROOT,
+        "user.ini"
 
-            fs.readFileSync(
+    );
 
-                file,
+    const cfg = ini.parse(
 
-                "utf8"
+        fs.readFileSync(
 
-            )
+            file,
+            "utf8"
 
-        );
+        )
 
-cfg.Basic.Profile = PROFILE_NAME;
-cfg.Basic.ProfileDir = PROFILE_NAME;
+    );
 
-cfg.Basic.SceneCollection = SCENE_NAME;
-cfg.Basic.SceneCollectionFile =
-    `${SCENE_NAME}.json`;
+    cfg.Basic.Profile = PROFILE_NAME;
+    cfg.Basic.ProfileDir = PROFILE_NAME;
+
+    cfg.Basic.SceneCollection = SCENE_NAME;
+    cfg.Basic.SceneCollectionFile = `${SCENE_NAME}.json`;
 
     fs.writeFileSync(
 
@@ -311,8 +352,13 @@ async function ensureOBSWorkspace() {
     console.log("");
 
     installProfile();
+
     installSceneCollection();
+
+    installAssets();
+
     installWebSocketConfig();
+
     selectProfile();
 
     console.log("✓ Workspace Ready");
