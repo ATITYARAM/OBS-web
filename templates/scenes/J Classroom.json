@@ -162,7 +162,7 @@
             "id": "image_source",
             "versioned_id": "image_source",
             "settings": {
-                "file": "/home/atitya/Downloads/IMG-20260714-WA0005-removebg-preview.png"
+                "file": "/home/atitya/Documents/classroom-controller/assets/logo.svg"
             },
             "mixers": 0,
             "sync": 0,
@@ -247,7 +247,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "watermark",
+                        "name": "logo",
                         "source_uuid": "8d29fcc6-e5a5-4fc2-9eee-7d1f2230f06d",
                         "visible": true,
                         "locked": false,
@@ -448,7 +448,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "watermark",
+                        "name": "logo",
                         "source_uuid": "8d29fcc6-e5a5-4fc2-9eee-7d1f2230f06d",
                         "visible": true,
                         "locked": false,
@@ -651,7 +651,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "watermark",
+                        "name": "logo",
                         "source_uuid": "8d29fcc6-e5a5-4fc2-9eee-7d1f2230f06d",
                         "visible": true,
                         "locked": false,
@@ -970,7 +970,7 @@
         },
         {
             "prev_ver": 536936450,
-            "name": "watermark",
+            "name": "logo",
             "uuid": "8d29fcc6-e5a5-4fc2-9eee-7d1f2230f06d",
             "id": "scene",
             "versioned_id": "scene",
@@ -1070,7 +1070,7 @@
             "name": "tnebooks"
         },
         {
-            "name": "watermark"
+            "name": "logo"
         },
         {
             "name": "entire"
@@ -1079,8 +1079,8 @@
             "name": "phone cam"
         }
     ],
-    "current_scene": "entire",
-    "current_program_scene": "entire",
+    "current_scene": "logo",
+    "current_program_scene": "logo",
     "canvases": [],
     "current_transition": "Fade",
     "transition_duration": 300,

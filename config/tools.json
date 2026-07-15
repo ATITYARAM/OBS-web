@@ -1,0 +1,26 @@
+{
+    "node": {
+        "required": true,
+        "download": true
+    },
+
+    "npm": {
+        "required": true,
+        "download": false
+    },
+
+    "obs": {
+        "required": true,
+        "download": false
+    },
+
+    "firefox": {
+        "required": true,
+        "download": false
+    },
+
+    "wmctrl": {
+        "required": true,
+        "download": false
+    }
+}

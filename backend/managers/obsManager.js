@@ -1,7 +1,9 @@
 const { obs: config } = require("../config");
 
+const { execSync } = require("child_process");
 
-const { execSync, spawn } = require("child_process");
+const runtime = require("../runtime/runtime");
+
 const { connectOBS } = require("../obs");
 
 function commandExists(command) {
@@ -111,44 +113,11 @@ function isOBSRunning(type) {
 
 }
 
-function launchOBS(type) {
+function launchOBS() {
 
     console.log("Launching OBS...");
 
-    if (type === "apt") {
-
-        spawn("obs", [], {
-
-            detached: true,
-            stdio: "ignore"
-
-        }).unref();
-
-    }
-
-    else if (type === "flatpak") {
-
-        spawn(
-
-            "flatpak",
-
-            [
-
-                "run",
-                "com.obsproject.Studio"
-
-            ],
-
-            {
-
-                detached: true,
-                stdio: "ignore"
-
-            }
-
-        ).unref();
-
-    }
+    runtime.launchOBS().unref();
 
 }
 
@@ -222,7 +191,7 @@ catch {
 
     console.log("Launching OBS...");
 
-    launchOBS(obs.type);
+    launchOBS();
 
     await waitForOBS();
 

@@ -4,11 +4,19 @@ const ini = require("ini");
 const { execSync } = require("child_process");
 
 const { workspace } = require("../config");
+const { getOBSConfig } = require("../utils/obsConfig");
 
 const ROOT =
     process.env.HOME +
     "/.var/app/com.obsproject.Studio/config/obs-studio";
 
+const TEMPLATE_SCENE =
+    path.join(
+        process.cwd(),
+        "templates",
+        "scenes",
+        getSceneFile()
+    );
 const PROFILE_NAME = workspace.profile;
 const SCENE_NAME = workspace.sceneCollection;
 
@@ -202,13 +210,19 @@ function installSceneCollection() {
 
     }
 
-    fs.copyFileSync(
-
-        TEMPLATE_SCENE,
-
-        dst
-
+const src =
+    path.join(
+        process.cwd(),
+        "templates",
+        "scenes",
+        getSceneFile()
     );
+
+fs.copyFileSync(
+    src,
+    dst
+);
+
 
 }
 
