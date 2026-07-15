@@ -1,11 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-const { getOBSConfig } =
-    require("./utils/obsConfig");
-
-const obs = getOBSConfig();
-
 const ROOT =
     process.env.HOME +
     "/.var/app/com.obsproject.Studio/config/obs-studio";
@@ -41,7 +36,7 @@ copy(
         ROOT,
         "basic",
         "profiles",
-        obs.profileDir
+        "J"
 
     ),
 
@@ -50,7 +45,7 @@ copy(
         process.cwd(),
         "templates",
         "profile",
-        obs.profileDir
+        "J"
 
     )
 
@@ -69,7 +64,7 @@ copy(
         ROOT,
         "basic",
         "scenes",
-        obs.sceneCollectionFile
+        "J Classroom.json"
 
     ),
 
@@ -78,11 +73,12 @@ copy(
         process.cwd(),
         "templates",
         "scenes",
-        obs.sceneCollectionFile
+        "J Classroom.json"
 
     )
 
 );
+
 
 console.log("✓ Scene Collection Saved");
 

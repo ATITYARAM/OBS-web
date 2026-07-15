@@ -4,7 +4,6 @@ const ini = require("ini");
 const { execSync } = require("child_process");
 
 const { workspace } = require("../config");
-const { getOBSConfig } = require("../utils/obsConfig");
 
 const ROOT =
     process.env.HOME +
@@ -156,29 +155,24 @@ function installProfile() {
 
 function installSceneCollection() {
 
-    const sceneFile = getSceneFile();
-
-    const src =
+    const scenesDir =
         path.join(
-            process.cwd(),
-            "templates",
-            "scenes",
-            sceneFile
+            ROOT,
+            "basic",
+            "scenes"
         );
 
     const dst =
         path.join(
-            ROOT,
-            "basic",
-            "scenes",
-            sceneFile
+            scenesDir,
+            `${SCENE_NAME}.json`
         );
 
     console.log("Installing Scene Collection...");
 
     fs.mkdirSync(
 
-        path.dirname(dst),
+        scenesDir,
 
         {
 
@@ -188,15 +182,29 @@ function installSceneCollection() {
 
     );
 
-    fs.rmSync(dst, {
+    for (const file of fs.readdirSync(scenesDir)) {
 
-        force: true
+        if (file.endsWith(".json")) {
 
-    });
+            fs.rmSync(
+
+                path.join(scenesDir, file),
+
+                {
+
+                    force: true
+
+                }
+
+            );
+
+        }
+
+    }
 
     fs.copyFileSync(
 
-        src,
+        TEMPLATE_SCENE,
 
         dst
 
@@ -263,10 +271,12 @@ function selectProfile() {
 
         );
 
-    cfg.Basic.Profile = PROFILE_NAME;
-    cfg.Basic.ProfileDir = PROFILE_NAME;
-    cfg.Basic.SceneCollection = SCENE_NAME;
-    cfg.Basic.SceneCollectionFile = getSceneFile();
+cfg.Basic.Profile = PROFILE_NAME;
+cfg.Basic.ProfileDir = PROFILE_NAME;
+
+cfg.Basic.SceneCollection = SCENE_NAME;
+cfg.Basic.SceneCollectionFile =
+    `${SCENE_NAME}.json`;
 
     fs.writeFileSync(
 
